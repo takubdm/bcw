@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="t-exp.info">
+    <serverData>
+      <paths name="t-exp.info">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/_secret_/music/bcw" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

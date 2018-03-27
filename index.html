@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+		<title>bandcamp Wishlist</title>
+		<link rel="icon" href="favicon_bcw.ico">
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header>
+			<a href="https://bandcamp.com/takuyahara/wishlist" id="logo" target="_blank">
+				<h1>bandcamp</h1>
+			</a>
+			<form id="formUrl">
+				<input type="text" name="inputUrls" placeholder="Input urls with commas" autocomplete="off" />
+				<button type="submit" value="Retrieve!"></button>
+			</form>
+			<span id="oneliner" title="Exec this oneliner in on console in wishlist page and copy the result in a search box.">
+				<textarea rows="1">var href = []; $('#wishlist-grid a.item-link[href]').each(function(){ href.push($(this).attr('href'));}); href.join(', ');</textarea>
+			</span>
+		</header>
+		<div id="container"></div>
+		<script
+		  src="http://code.jquery.com/jquery-3.3.1.min.js"
+		  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		  crossorigin="anonymous"></script>
+		<script src="wishlist.js"></script>
+		<script src="vueGenerator.js"></script>
+		<script src="addon.js"></script>
+		<script type="text/javascript">
+		<!--
+		var formUrl = $('#formUrl');
+		var inputUrls = formUrl.find('input[name=inputUrls]');
+		var submit = formUrl.find('button[type=submit]');
+		var container = $('#container');
+		var bcw = new BandcampWishlist();
+		var vg = new VueGenerator();
+		var ao = new AddOn();
+		//
+		$(function(){
+			RegExp.escape= function(s) {
+		    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+			};
+			formUrl.submit(function(){
+				ao.resetFilter();
+				vg.extendTable(inputUrls.val().split(", "), container.find('table'));
+				bcw.retrieveData(
+					$('tr:gt(0)'),
+					function()
+					{
+						inputUrls.attr('disabled', true);
+						ao.disableSearchForm();
+						ao.disableTagLinks();
+					},
+					vg.updateTable(container.find('table'), ao.addLinkToTags),
+					function()
+					{
+						vg.resetProgress();
+						inputUrls.val('').attr('disabled', false);
+						ao.enableSearchForm();
+						ao.enableTagLinks();
+					}
+				);
+				return false;
+			});
+			bcw.loadWishlist(
+				vg.generateTable(container, function(){
+					ao.addSearchForm();
+					ao.enableTagLinks();
+				})
+			);
+		});
+		//-->
+		</script>
+	</body>
+</html>
