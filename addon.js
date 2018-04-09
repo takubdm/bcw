@@ -6,6 +6,22 @@ function AddOn()
     false: 'wishlist'
   };
   var FILTERED_TEXT = 'filtered';
+  var isRegExpEnabled = false;
+  this.showUsage = function()
+  {
+    console.info([
+        "Usage:",
+        " - showUsage()",
+        "    Shows this.",
+        " - toggleRegExp()",
+        "    Toggles RegExp for tags."
+    ].join("\n"));
+  }
+  this.toggleRegExp = function()
+  {
+    isRegExpEnabled = !isRegExpEnabled;
+    console.log('isRegExpEnabled: ' + isRegExpEnabled);
+  }
   this.enableTagLinks = function()
   {
     var thTags = $('th.tags');
@@ -112,7 +128,10 @@ function AddOn()
       var isTagIncluded = false;
       for (var i=0, l=target.length; i<l; i++)
       {
-        if (target[i].match(new RegExp(RegExp.escape(criterion), 'i')))
+        var pattern = isRegExpEnabled ?
+          criterion :
+          RegExp.escape(criterion);
+        if (target[i].match(new RegExp(pattern, 'i')))
         {
           isTagIncluded = true;
           break;
@@ -129,3 +148,6 @@ function AddOn()
     });
   }
 }
+RegExp.escape= function(s) {
+    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};

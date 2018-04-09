@@ -36,11 +36,9 @@
 		var bcw = new BandcampWishlist();
 		var vg = new VueGenerator();
 		var ao = new AddOn();
+		ao.showUsage();
 		//
 		$(function(){
-			RegExp.escape= function(s) {
-		    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-			};
 			formUrl.submit(function(){
 				ao.resetFilter();
 				vg.extendTable(inputUrls.val().split(", "), container.find('table'));
