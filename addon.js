@@ -20,7 +20,7 @@ function AddOn()
   this.toggleRegExp = function()
   {
     isRegExpEnabled = !isRegExpEnabled;
-    console.log('isRegExpEnabled: ' + isRegExpEnabled);
+    $('.delim').toggle();
   }
   this.enableTagLinks = function()
   {
@@ -84,8 +84,33 @@ function AddOn()
   }
   this.addSearchForm = function()
   {
+    // Search box
+    var reDelimiter1 = $('<span class="delim">/</span>');
+    var searchBox = $('<span id="searchBox"></span>').text(
+        $('th.tags').text()
+    );
+    var reDelimiter2 = $('<span class="delim">/</span>');
+
+    // Clear original content before append
+    $('th.tags').html(null);
+
+    // Add search box
     var thTags = $('th.tags');
-    thTags.attr('contenteditable', true).focus(function(){
+    thTags.append(
+      reDelimiter1.css({'display': 'table-cell'})
+    ).append(
+      searchBox.css({
+        'display': 'table-cell',
+        'width': '100%',
+        'line-height': '1em'
+      })
+    ).append(
+      reDelimiter2.css({'display': 'table-cell'})
+    );
+    $('.delim').toggle();
+
+    // contenteditable, functions
+    searchBox.attr('contenteditable', true).focus(function(){
       if ($(this).text() == DEFAULT_TEXT)
       {
         container.find('tr:gt(0)').show();
