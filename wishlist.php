@@ -10,7 +10,8 @@
 <?php
   function load_wishlist()
   {
-    header('content-type: application/json; charset=utf-8');
+      header('Access-Control-Allow-Origin: *');
+      header('content-type: application/json; charset=utf-8');
     echo json_encode(file_get_contents(WISHLIST));
   }
   function update_wishlist($new_data, $current_data)
